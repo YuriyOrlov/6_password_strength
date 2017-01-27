@@ -24,9 +24,10 @@ def get_password_strength(password, common_passw_list=None):
     if common_passw_list:
         pass
     else:
-        password_len = 
+        password_len = len(password)
         upper_case_check = any(char.isupper() for char in password)
-        lower_upper_case_check = any(char.islower() for char in password)
+        lower_case_check = any(char.islower() for char in password)
+        return password_len, upper_case_check, lower_case_check
 
 
 if __name__ == '__main__':
