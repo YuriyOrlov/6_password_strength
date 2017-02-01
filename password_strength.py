@@ -1,3 +1,4 @@
+import getpass
 from os import path
 from math import log2
 from string import punctuation
@@ -59,6 +60,6 @@ def get_password_strength(password, bonus_points=0):
 
 if __name__ == '__main__':
     password_list_from_text = load_password_list('./most_common_passwords.txt')
-    users_password = input('\nEnter your password> ')
+    users_password = getpass.getpass(prompt='\nEnter your password> ', stream=None)
     get_bonus_for_complexity = get_bonus_points(users_password, password_list_from_text)
     print(get_password_strength(users_password, get_bonus_for_complexity))
