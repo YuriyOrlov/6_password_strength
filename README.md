@@ -8,9 +8,9 @@ More information about this method here:
 https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength
 
 
-This script does not take into account patterns of human language (words, repetition of letters, etc.). More important is not the difference of the symbols, but the number of symbols in password. It assumes that each character is chosen independently from a set characters with equal probability. The longer the password, the harder it is to pick up the key. However, it takes into account upper, lower cases of characters and also special symbols. Script adds some bonus points to complexity of your password.
+This script takes no account of human language (words, repeat letters, etc.). so I slightly changed the basic formula. Now it reduces basic number of received bits by half. More important is not the difference of the symbols, but the number of symbols in password. It assumes that each character is chosen independently from a set characters with equal probability. The longer the password, the harder it is to pick up the key. However, it takes into account upper, lower cases of characters and also special symbols. Script adds some bonus points to complexity of your password.
 
-Furthermore this program will check your passphrase in the password blacklist which have to be called *most_common_passwords.txt*. Example of such passwords could be found here:
+Furthermore this program will check your passphrase in the password blacklist which have to be called *most_common_passwords.txt* and put into same folder with this script. Example of such passwords could be found here:
 
 http://www.passwordrandom.com/most-popular-passwords
 
