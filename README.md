@@ -1,7 +1,7 @@
 # Password Strength Calculator
 
 This simple script gives you an ability to see your password complexity using entropy as
-a measure of password strenght.
+a measure of password strength.
 
 More information about this method here:
 
@@ -24,7 +24,7 @@ This script requires that you had the Python interpreter (version 3.5 and higher
 $ python password_strength.py # possibly requires call of python3 executive instead of just python
 
 Enter your password> HelloWorld!
-7
+4
 
 ```
 
