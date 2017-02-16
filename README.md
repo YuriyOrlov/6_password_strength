@@ -1,7 +1,7 @@
 # Password Strength Calculator
 
 This simple script gives you an ability to see your password complexity using entropy as
-a measure of password strenght.
+a measure of password strength.
 
 More information about this method here:
 
