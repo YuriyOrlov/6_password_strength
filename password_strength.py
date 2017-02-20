@@ -5,7 +5,6 @@ import sys
 from os import path
 from math import log2
 from string import punctuation
-from chardet import detect
 
 
 class MyParser(argparse.ArgumentParser):
@@ -42,17 +41,10 @@ def create_parser():
     return parser
 
 
-def detect_encoding(filepath):
-    with open(filepath, 'br') as file:
-        raw_data = file.read()
-    return detect(raw_data)['encoding']
-
-
 def load_password_list(filepath):
-    possible_encoding = detect_encoding(filepath)
     if not path.exists(filepath):
         return None
-    with open(filepath, 'r', encoding=possible_encoding) as file:
+    with open(filepath, 'r', encoding='utf-8') as file:
         return [line.strip() for line in file.readlines()]
 
 
@@ -95,7 +87,7 @@ def convert_bits_to_points(number_of_bits):
               9: (45, 50),
               10: (50, 1000)}
     for key, value in ranges.items():
-        if number_of_bits in range(value[0], value[1]):
+        if number_of_bits in range(*value):
             return key
 
 
@@ -104,6 +96,7 @@ if __name__ == '__main__':
     parser.check_python_version()
     args = parser.parse_args()
     password_list_from_text = load_password_list(args.file) if args.file else None
+    print(password_list_from_text)
     user_password = getpass.getpass(prompt='\nEnter your password> ', stream=None)
     get_password_complexity = get_password_strength_in_bits(user_password, password_list_from_text)
     print(convert_bits_to_points(get_password_complexity))
