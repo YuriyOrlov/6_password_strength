@@ -14,14 +14,6 @@ Furthermore, this program will check your passphrase in the password blacklist. 
 
 http://www.passwordrandom.com/most-popular-passwords
 
-*ATTENTION*: This program needs additional library for usage - chardet.
-More information about it here:
-
-https://github.com/chardet/chardet
-https://pypi.python.org/pypi/chardet
-
-Before using script, please be sure, that you've done ```pip install chardet```.
-
 Example:
 
 This script requires that you had the Python interpreter (version 3.5 and higher) already installed on your system.
