@@ -52,30 +52,25 @@ def load_password_list(filepath):
         return [line.strip() for line in file.readlines()]
 
 
-def acquire_bonus_points_for_characters(password):
-    is_chars_upper_case = any(char.isupper() for char in password)
-    is_chars_lower_case = any(char.islower() for char in password)
-    if all((is_chars_upper_case, is_chars_lower_case)):
-        return 1.0
-    else:
-        return 0.5
-
-
-def gain_complexity_bonus_points(password, common_passw_list=None):
-    if common_passw_list:
-        blacklist_password_check = 1.0 if password not in common_passw_list else 0
-        lower_upper_characters = acquire_bonus_points_for_characters(password)
+def get_password_strength_in_bits(password, bad_passwords_list=None):
+    if bad_passwords_list:
+        blacklist_password_check = 1.0 if password not in bad_passwords_list else 0
+        any_char_is_in_upper_case = any(char.isupper() for char in password)
+        any_char_is_in_lower_case = any(char.islower() for char in password)
+        bonus_for_lower_or_upper_case_character = 1.0 if all((any_char_is_in_upper_case,
+                                                              any_char_is_in_lower_case)) else 0.5
         spec_character_check = any(char for char in password if char in punctuation)
     else:
         blacklist_password_check = 0
-        lower_upper_characters = acquire_bonus_points_for_characters(password)
+        any_char_is_in_upper_case = any(char.isupper() for char in password)
+        any_char_is_in_lower_case = any(char.islower() for char in password)
+        bonus_for_lower_or_upper_case_character = 1.0 if all((any_char_is_in_upper_case,
+                                                              any_char_is_in_lower_case)) else 0.5
         spec_character_check = any(char for char in password if char in punctuation)
-    return sum([num for num in (blacklist_password_check, lower_upper_characters, spec_character_check)])
-
-
-def get_password_strength_in_bits(password, bad_passwords_list=None):
-    get_bonus_for_complexity = gain_complexity_bonus_points(user_password, bad_passwords_list)
-    count_unique_chars = len(set(password)) + 1 + get_bonus_for_complexity
+    bonus_points_for_complexity = sum([num for num in (blacklist_password_check,
+                                                       bonus_for_lower_or_upper_case_character,
+                                                       spec_character_check)])
+    count_unique_chars = len(set(password)) + 1 + bonus_points_for_complexity
     return int((log2(count_unique_chars) * len(password)) / 2)
 
 
