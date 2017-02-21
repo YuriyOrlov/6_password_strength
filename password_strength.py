@@ -6,6 +6,10 @@ from os import path
 from math import log2
 from string import punctuation
 
+RANGES_FOR_CONVERTING_BITS = [(1, 6), (6, 14), (14, 19), (19, 24),
+                              (24, 29), (29, 35), (35, 39), (39, 45),
+                              (45, 50), (50, 1000)]
+
 
 class MyParser(argparse.ArgumentParser):
     def error(self, message):
@@ -69,34 +73,22 @@ def gain_complexity_bonus_points(password, common_passw_list=None):
     return sum([num for num in (blacklist_password_check, lower_upper_characters, spec_character_check)])
 
 
-def get_password_strength_in_bits(password, password_list_from_text=None):
-    get_bonus_for_complexity = gain_complexity_bonus_points(user_password, password_list_from_text)
+def get_password_strength_in_bits(password, bad_passwords_list=None):
+    get_bonus_for_complexity = gain_complexity_bonus_points(user_password, bad_passwords_list)
     count_unique_chars = len(set(password)) + 1 + get_bonus_for_complexity
     return int((log2(count_unique_chars) * len(password)) / 2)
 
 
-def convert_bits_to_points(number_of_bits):
-    ranges = {1: (1, 6),
-              2: (6, 14),
-              3: (14, 19),
-              4: (19, 24),
-              5: (24, 29),
-              6: (29, 35),
-              7: (35, 39),
-              8: (39, 45),
-              9: (45, 50),
-              10: (50, 1000)}
-    for key, value in ranges.items():
-        if number_of_bits in range(*value):
-            return key
+def convert_bits_to_points(number_of_bits, RANGES_FOR_CONVERTING_BITS=RANGES_FOR_CONVERTING_BITS):
+    return [index for index, bits_range in enumerate(RANGES_FOR_CONVERTING_BITS)
+            if number_of_bits in range(*bits_range)]
 
 
 if __name__ == '__main__':
     parser = create_parser()
     parser.check_python_version()
     args = parser.parse_args()
-    password_list_from_text = load_password_list(args.file) if args.file else None
-    print(password_list_from_text)
+    bad_passwords_list = load_password_list(args.file) if args.file else None
     user_password = getpass.getpass(prompt='\nEnter your password> ', stream=None)
-    get_password_complexity = get_password_strength_in_bits(user_password, password_list_from_text)
-    print(convert_bits_to_points(get_password_complexity))
+    overall_password_complexity = get_password_strength_in_bits(user_password, bad_passwords_list)
+    print(convert_bits_to_points(overall_password_complexity)[0])
