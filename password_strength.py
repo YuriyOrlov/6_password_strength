@@ -18,7 +18,7 @@ def load_password_list(filepath):
 
 def get_password_strength_in_bits(password, bad_passwords_list=None):
     if bad_passwords_list:
-        password_in_blacklist = True if password not in bad_passwords_list else False
+        password_in_blacklist = password not in bad_passwords_list
         has_uppercase_chars = any(char.isupper() for char in password)
         has_lowercase_chars = any(char.islower() for char in password)
         letter_case_bonus = 1.0 if all((has_uppercase_chars,
