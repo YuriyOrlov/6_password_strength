@@ -1,48 +1,12 @@
 import getpass
-import argparse
-import textwrap
-import sys
 from os import path
 from math import log2
 from string import punctuation
+from args_parser import MyParser
 
 ENTROPY_BITS = [(1, 6), (6, 14), (14, 19), (19, 24),
                 (24, 29), (29, 35), (35, 39), (39, 45),
                 (45, 50), (50, 1000)]
-
-
-class MyParser(argparse.ArgumentParser):
-    def error(self, message):
-        sys.stderr.write('error: {}\n'.format(message))
-        self.print_help()
-        sys.exit(2)
-
-    def check_python_version(self):
-        if sys.version_info < (3, 5):
-            self.print_help()
-            raise SystemExit('\nSorry, this code needs Python 3.5 or higher\n')
-
-
-def create_parser():
-    parser = MyParser(prog='Password complexity', formatter_class=argparse.RawDescriptionHelpFormatter,
-                      description=textwrap.dedent('''\
-                      Script for password complexity check \n
-                      -----------------------------------------------------------------
-                      This script needs file for better work:
-                      *most_common_passwords.txt - list of bad passwords according to \
-                                                 the investigations of data breaches \
-                                                and hack attacks in 2015.
-
-                      If you want to stop the program press Ctrl+C.
-                      ------------------------------------------------------------------
-                      This program had been tested on Python 3.5.2.
-                      '''))
-    parser.add_argument('--file', nargs='?',
-                        help='Paste full path to file with bad passwords,\
-                              e.g --file /home/user/documents/most_common_passwords.txt\
-                              (default: %(default)s)',
-                        type=str, default=None)
-    return parser
 
 
 def load_password_list(filepath):
@@ -80,7 +44,7 @@ def convert_bits_to_points(number_of_bits, ENTROPY_BITS=ENTROPY_BITS):
 
 
 if __name__ == '__main__':
-    parser = create_parser()
+    parser = MyParser()
     parser.check_python_version()
     args = parser.parse_args()
     bad_passwords_list = load_password_list(args.file) if args.file else None
