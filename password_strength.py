@@ -44,9 +44,9 @@ def convert_bits_to_points(number_of_bits, ENTROPY_BITS=ENTROPY_BITS):
 
 
 if __name__ == '__main__':
-    parser = MyParser()
-    parser.check_python_version()
-    args = parser.parse_args()
+    args_parser = MyParser()
+    args_parser.check_python_version()
+    args = args_parser.parse_args()
     bad_passwords_list = load_password_list(args.file) if args.file else None
     user_password = getpass.getpass(prompt='\nEnter your password> ', stream=None)
     overall_password_complexity = get_password_strength_in_bits(user_password, bad_passwords_list)
