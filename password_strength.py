@@ -2,7 +2,7 @@ import getpass
 from os import path
 from math import log2
 from string import punctuation
-from args_parser import MyParser
+from args_parser import ConsoleArgsParser
 
 ENTROPY_BITS = [(1, 6), (6, 14), (14, 19), (19, 24),
                 (24, 29), (29, 35), (35, 39), (39, 45),
@@ -44,7 +44,7 @@ def convert_bits_to_points(number_of_bits, ENTROPY_BITS=ENTROPY_BITS):
 
 
 if __name__ == '__main__':
-    args_parser = MyParser()
+    args_parser = ConsoleArgsParser()
     args_parser.check_python_version()
     args = args_parser.parse_args()
     bad_passwords_list = load_password_list(args.file) if args.file else None

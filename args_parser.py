@@ -3,10 +3,10 @@ import textwrap
 import sys
 
 
-class MyParser(argparse.ArgumentParser):
+class ConsoleArgsParser(argparse.ArgumentParser):
 
     def __init__(self, *args, **kwargs):
-        super(MyParser, self).__init__(*args, **kwargs)
+        super(ConsoleArgsParser, self).__init__(*args, **kwargs)
         self.prog = 'Password complexity'
         self.formatter_class = argparse.RawDescriptionHelpFormatter
         self.description = textwrap.dedent('''\
@@ -14,8 +14,7 @@ class MyParser(argparse.ArgumentParser):
                       -----------------------------------------------------------------
                       This script needs file for better work:
                       *most_common_passwords.txt - list of bad passwords according to \
-                                                 the investigations of data breaches \
-                                                and hack attacks in 2015.
+                      the investigations of data breaches and hack attacks in 2015.
 
                       If you want to stop the program press Ctrl+C.
                       ------------------------------------------------------------------
